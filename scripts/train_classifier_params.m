@@ -13,6 +13,8 @@ max_epoch = [ 1000, 3000, 9000 ];
 algorithm = { 'traingd' ; 'trainrp' ; 'trainoss' ; 'trainlm' };
 transfer_function = { 'tansig', 'elliotsig' };
 
+params.max_fail = 6;
+
 limiters(1) = length(dataset);
 limiters(2) = length(learning_rate);
 limiters(3) = length(hidden_neuron);
@@ -22,10 +24,11 @@ limiters(6) = length(transfer_function);
 
 number_combinations = prod(limiters);
 number_parameters = 6;
-number_measurements = 5;
+number_measurements = 6;
 
 combinations = zeros(number_combinations, number_parameters);
 performances = cell(number_combinations, number_measurements);
+inputs = cell(length(dataset), 5);
 
 idx = 1;
 
@@ -39,6 +42,12 @@ for p1=1:limiters(1);
     params.tr_ind = tr_ind;
     params.val_ind = val_ind;
     params.te_ind = te_ind;
+    
+    inputs{p1, 1} = X;
+    inputs{p1, 2} = T;
+    inputs{p1, 3} = tr_ind;
+    inputs{p1, 4} = val_ind;
+    inputs{p1, 5} = te_ind;
     
     for p2=1:limiters(2);
         for p3=1:limiters(3);
@@ -64,3 +73,5 @@ for p1=1:limiters(1);
         end;
     end;
 end;
+
+save results_final_updated combinations inputs performances

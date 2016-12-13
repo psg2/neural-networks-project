@@ -19,11 +19,12 @@ lim_val = length(class0.val_ind);
 divisor_tr = length(tr_ind);
 divisor_val = length(val_ind);
 
-X_training = adapted_smote([ X(tr_ind,:) ; X_class0 ], divisor_tr, k_tr, lim_tr);
-X_validation = adapted_smote([ X(val_ind,:) ; X_class0 ], divisor_val, k_val, lim_val);
+X_training = adapted_smote([ X(tr_ind,:) ; X_class0 ], divisor_tr, 5, lim_tr, k_tr);
+X_validation = adapted_smote([ X(val_ind,:) ; X_class0 ], divisor_val, 5, lim_val, k_val);
 X_test = X(te_ind,:);
 
 X_new = [ X_training ; X_validation ; X_test ];
+X_new2 = unique(X_new, 'rows');
 
 class1.X = X_new;
 class1.T = ones(length(X_new), 1);

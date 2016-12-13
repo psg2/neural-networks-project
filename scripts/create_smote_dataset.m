@@ -16,11 +16,12 @@ k_val = floor( length(class0.val_ind) / length(class1.val_ind) );
 lim_tr = length(class0.tr_ind);
 lim_val = length(class0.val_ind);
 
-X_training = smote(X(tr_ind,:), k_tr, lim_tr);
-X_validation = smote(X(val_ind,:), k_val, lim_val);
+X_training = smote(X(tr_ind,:), 5, lim_tr, k_tr);
+X_validation = smote(X(val_ind,:), 5, lim_val, k_val);
 X_test = X(te_ind,:);
 
 X_new = [ X_training ; X_validation ; X_test ];
+X_new2 = unique(X_new, 'rows');
 
 class1.X = X_new;
 class1.T = ones(length(X_new), 1);

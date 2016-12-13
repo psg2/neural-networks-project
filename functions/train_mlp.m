@@ -12,11 +12,13 @@ T = params.T;
 tr_ind = params.tr_ind;
 val_ind = params.val_ind;
 te_ind = params.te_ind;
+max_fail = params.max_fail;
 
 net = feedforwardnet(hidden_neuron, algorithm);
 net.layers{1}.transferFcn = transfer_function;
 net.trainParam.lr = learning_rate;
 net.trainParam.epochs = max_epoch;
+net.trainParam.max_fail = max_fail;
 net.trainParam.showWindow = false;
 
 net.divideFcn = 'divideind';
@@ -34,12 +36,14 @@ tr_perf = tr.best_perf;
 val_perf = tr.best_vperf;
 te_perf = tr.best_tperf;
 
-performances = { AUC, tr_perf, val_perf, te_perf, y };
+performances = { AUC, tr_perf, val_perf, te_perf, y, T(te_ind,:)' };
+
+% tr
 
 % erros = length(find(classificated' ~= classLabels(te_ind))) / length(te_ind);
 % [ ~ , classificated ] = max(y, [], 1);
-% figure, plotroc(T(te_ind,:)', y)
-% figure, plotconfusion(T(te_ind,:)',y)
+% figure, plotroc(te, y)
+% figure, plotconfusion(te,y)
 % figure, plotperform(tr)
 
 end
